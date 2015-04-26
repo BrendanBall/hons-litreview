@@ -1,0 +1,35 @@
+
+% Steps to compile: latex, bibtex, latex latex
+%
+% For tracking purposes => this is v1.2 - March 2012
+\documentclass{article} % V1.2
+\usepackage[british]{babel}
+\usepackage{csquotes}
+\usepackage[backend=biber, style=apa]{biblatex}
+
+\DeclareLanguageMapping{british}{british-apa}
+
+\bibliography{rtc}
+\begin{document}
+
+
+\title{Real Time Collaboration in BioInformatics} % title
+
+\author{Brendan D. Ball}
+
+\maketitle
+\section{Hello}
+\autocite{nicolaescu2013browser}
+\printbibliography
+% Bibliography
+
+
+
+                                % Sample .bib file with references that match those in
+                                % the 'Specifications Document (V1.5)' as well containing
+                                % 'legacy' bibs and bibs with 'alternate codings'.
+                                % Gerry Murray - March 2012
+
+
+\end{document}
+% End of v2-acmtog-sample.tex (March 2012) - Gerry Murray, ACM
