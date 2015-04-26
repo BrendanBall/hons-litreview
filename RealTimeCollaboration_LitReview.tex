@@ -1,38 +1,41 @@
-\documentclass{article}
-\usepackage[british]{babel}
-\usepackage{csquotes}
-\usepackage[backend=biber, style=apa]{biblatex}
+\documentclass[prodmode,acmtecs]{acmsmall}
+\usepackage[ruled]{algorithm2e}
+\renewcommand{\algorithmcfname}{ALGORITHM}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\SetAlCapNameFnt{\small}
+\SetAlCapHSkip{0pt}
+\IncMargin{-\parindent}
 
-\DeclareLanguageMapping{british}{british-apa}
 
-\bibliography{rtc}
+
 \begin{document}
-
+\markboth{B D Ball}{Real-Time Collaboration in BioInformatics with Synchronized Web Browsers}
 
 \title{Real-Time Collaboration in BioInformatics with Synchronized Web Browsers} % title
-\author{Brendan D Ball}
-%\affil{University of Cape Town}
+\author{Brendan D Ball
+\affil{University of Cape Town}}
 \date{April 2015}
 
-\maketitle
 \begin{abstract}
 This is an abstract
 \end{abstract}
 
+\keywords{WebRTC, WebSocket}
+\maketitle
 \section{Introduction}
 intro
+\nocite{*}
 
 \section{Background}
-
+df
 \section{Discussion}
-
+df
 \section{Conclusions}
-
-
-\nocite{*}
-\printbibliography
-% Bibliography
-
+sd
+\appendix
+\bibliographystyle{ACM-Reference-Format-Journals}
+\bibliography{rtc}
 
 \end{document}
 
