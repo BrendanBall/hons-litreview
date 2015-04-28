@@ -1,5 +1,6 @@
 \documentclass[prodmode,acmtecs]{acmsmall}
 \usepackage[ruled]{algorithm2e}
+\usepackage{hyperref}
 \renewcommand{\algorithmcfname}{ALGORITHM}
 \SetAlFnt{\small}
 \SetAlCapFnt{\small}
@@ -39,9 +40,9 @@ AJAX stands for asynchronous JavaScript and XML. This technology allows requesti
 
 \subsection{Comet}
 Comet extends AJAX to overcome its limitation of not being bidirectional. It essentially relies on exploiting AJAX to do things it was never made for. Comet consists of three different hacks which allow bidirectional data streams. \\
-\textbf{Long polling} sends a request to the web server using AJAX, but instead of receiving a response immediately, the request is only completed when the web server has new data to push to the client. This means the connection between the client and server may be kept open for much longer than a normal AJAX request would. After the client receives data that connection is closed and a new request is initiated. When data is being rapidly updated this becomes as inefficient as normal AJAX would've been.\\
-\textbf{XHR Multipart Streaming} also uses AJAX but exploits a content type called multipart essentially allowing a connection to stay open between multiple messages. Multipart officially exists to allow large files to be sent in chunks. This often uses up much more memory on the client's device than necessary as it keeps the chunks in memory until the connection is closed. This can however be rectified by periodically closing the connection and creating a new request.\\
-\textbf{XHR Iframe Streaming} makes use of a hidden iframe which connects to a web server and streams Javascript dynamically. The iframe is then processed to extract the data from the Javascript. This technique also results in memory problems just like multipart streaming above \cite{gutwin2011real}.\\
+\subsubsection{Long polling} sends a request to the web server using AJAX, but instead of receiving a response immediately, the request is only completed when the web server has new data to push to the client. This means the connection between the client and server may be kept open for much longer than a normal AJAX request would. After the client receives data that connection is closed and a new request is initiated. When data is being rapidly updated this becomes as inefficient as normal AJAX would've been.\\
+\subsubsection{XHR Multipart Streaming} also uses AJAX but exploits a content type called multipart essentially allowing a connection to stay open between multiple messages. Multipart officially exists to allow large files to be sent in chunks. This often uses up much more memory on the client's device than necessary as it keeps the chunks in memory until the connection is closed. This can however be rectified by periodically closing the connection and creating a new request.\\
+\subsubsection{XHR Iframe Streaming} makes use of a hidden iframe which connects to a web server and streams Javascript dynamically. The iframe is then processed to extract the data from the Javascript. This technique also results in memory problems just like multipart streaming above \cite{gutwin2011real}.\\
 These exploits were used when there was no alternative besides using plugins and probably resulted in many unforeseen bugs.
 
 \subsection{Plugins}
@@ -51,20 +52,33 @@ Gutwin and Lippold did an excellent job researching and comparing these technolo
 
 
 \section{Discussion}
-Since new web standards have been implemented, namely WebSocket and WebRTC we no longer have to use subpar solutions to our problem. WebScoket and WebRTC are still new technologies but most updated web browsers support them by now.
+Since new web standards have been implemented, namely WebSocket and WebRTC, we no longer have to use sub par solutions to our problem. WebSocket and WebRTC are still new technologies but most updated web browsers support them by now. There are numerous papers exploring the possibilities and performance of WebSocket, as well as papers designing communication architectures on top of WebSocket \cite{panagiotakis2013architecture}.
 
 \subsection{WebSocket}
-WebSocket is designed to be the TCP socket of the web. Although Http and WebSocket do run on TCP, it is not natively accessible through web browsers. WebSocket was designed to fix this shortcoming and actually has many advantages over using a TCP socket through a plugin. One advantage being that WebSocket is built on top of existing web infrastructure meaning it is able to handle proxy and firewall traversal which simplifies many problems that plain TCP connections would have given, given that most companies have proxies and firewalls installed \cite{wenzel2013towards}.\\
+WebSocket is designed to be the TCP socket of the web. Although Http and WebSocket do run on TCP, it is not natively accessible through web browsers. WebSocket was designed to fix this shortcoming and has many advantages over using a TCP socket through a plugin. \\
 
-WebSocket is a full-duplex communication channel, which means that it allows bidirectional communication asynchronously \cite{rakhundereal}. There is a catch to WebSocket though. WebSocket is purely client-server and provides no support for peer-to-peer connections due to it being implemented on existing web infrastructure. This will become important when discussing WebRTC later on. 
+WebSocket is a full-duplex communication channel, which means that it allows bidirectional communication asynchronously \cite{rakhundereal}. WebSocket is built on top of existing web infrastructure, which results in both an advantage and a disadvantage \cite{skvorc2014performance}. The advantage being that it is able to handle proxy and firewall traversal which simplifies many problems that plain TCP connections would have given, given that most companies have proxies and firewalls installed \cite{almasi2013evaluation}. The disadvantage is that it is purely client-server and provides no support for peer-to-peer connections, which is a direct result of it being implemented on existing web infrastructure. This will become important when discussing WebRTC later on. \\
 
-\cite{grasberger2013data}
-\cite{almasi2013evaluation}
-\cite{solomon2012distributed}
-\cite{skvorc2014performance}
-\cite{panagiotakis2013architecture}
+\subsubsection{WebSocket protocol}
+We've already established that WebSocket is built on top of TCP. this means that when a client attempts to initiate a WebSocket connection with the server, it first needs to establish a TCP connection. A successful TCP handshake takes three messages. After the TCP handshake is completed, it takes another two messages for a successful WebSocket handshake after which the persistent connection is established and data can be sent back and forth. This protocol is visualized in \textit{figure 1} \cite{skvorc2014performance}.
+
+
+\begin{figure}
+\centerline{\includegraphics[scale=0.5]{websockethandshake}}
+\caption{WebSocket Handshake.}
+\label{figure:one}
+\end{figure}
+
+\subsubsection{Scalability}
+When a user requests a web page an http request is sent, a connection is established, the relevant data is transmitted and the connection is closed. This means that http connections were designed to be short lived. This architectural feature benefits the scalability of traditional web applications. WebSocket connections are however persistent and not designed to be short lived. This has a big impact on server resources and makes it more difficult to scale web applications, which use WebSocket, to a large number of users. One possible solution to this is to use distributed clouds on which to host the web servers to improve network traffic and decrease resource utilization for each web server \cite{solomon2012distributed}. 
+
+
+
+
+
 
 \subsection{WebRTC}
+
 \subsubsection*{Signalling}
 \subsection{Bandwidth Requirements}
 \subsection{Synchronization Approach}
