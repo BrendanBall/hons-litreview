@@ -74,15 +74,23 @@ When a user requests a web page an http request is sent, a connection is establi
 
 
 
-
-
-
 \subsection{WebRTC}
+WebRTC is a new web technology built on top of RTP (Real-time transport protocol). It's primary goal is to allow real-time audio and video transmission between two browsers without any server relay in between. No plugins are required to use WebRTC as it has been added as a native API to most web browsers. Since it's growth in popularity it has been extended with a data channel as well which allows developers to transmit any arbitrary data \cite{karadogan2014evaluating}.\\
 
-\subsubsection*{Signalling}
-\subsection{Bandwidth Requirements}
-\subsection{Synchronization Approach}
-\subsection{Conflict Resolution}
+WebRTC allows a full-duplex communication channel similar to WebSocket. WebRTC is however fundamentally different to WebSocket. WebRTC uses UDP where WebSocket uses TCP. This means that by default WebRTC does not guarantee lossless, ordered data. The advantage of this is that UDP allows lower latency which is better for real-time communication when dealing with audio or video as lossless transmission is not essential. When dealing with a data channel lossless transmission may or may not be essential depending on the use case and WebRTC allows application layer reliable transmission should the developer require it. The last big difference between WebRTC and WebSocket is that WebRTC is designed to support peer-to-peer (P2P) communication directly between two browsers where WebSocket is entirely client-server \cite{karadogan2014evaluating}. Vogt, Werner, and Schmidt researched how to take advantage of WebRTC to create a browser based P2P content sharing platform and they were enthusiastic to explore this avenue further \cite{vogt2013leveraging}.
+
+\subsubsection{Signalling}
+P2P connections aren't easy to set up due to complications introduced by NAT (Network Address Translation). The solution to this problem is signalling. Signalling requires a third party, normally a web server to relay connection information between the two clients allowing them to set up a P2P connection. Once the connection is set up, the third party is no longer required and the two clients can communicate while the connection stays open. \textit{figure 2} demonstrates this interaction between the two clients and the third party \cite{karadogan2014evaluating}. WebRTC requires signalling but imposes no protocol on how it should be done. It is left to the system architects to decide how to implement signalling. There are two common methods used. The first method simply uses AJAX to communicate the necessary signalling information and the second method sets up a WebSocket connection and uses the Session Initiation Protocol (SIP) \cite{adeyeye2013determining}.
+
+\begin{figure}
+\centerline{\includegraphics[scale=0.5]{webrtcsignalling}}
+\caption{WebSocket Handshake.}
+\label{figure:two}
+\end{figure}
+
+\subsubsection{Scalability}
+When purely looking at P2P networks they are inherently scalable. However real-time collaboration may very likely exist between more than two users. When trying to synchronize more than two browsers using P2P connections it quickly becomes complex. There are different architectures for solving this problem, the most obvious of which being a full mesh architecture. In a group of size ${N}$ where the whole group aims to be synchronized, a full mesh requires every peer to set up a connection with every other peer in the group. This results in $N^2$ connections which quickly becomes infeasible as $N$ grows. An alternative to a full mesh is a star architecture where one client acts as a server in the group and relays data between all clients. This could pose a problem should the main client disconnect but can be solved by implementing a framework that automatically fails over to another client. The last architecture is a multipoint control unit (MCU) which essentially is a client-server architecture where a single server relays data between clients. This architecture would behave similar to a WebSocket architecture \cite{karadogan2014evaluating}.
+
 
 
 \section{Conclusions}
