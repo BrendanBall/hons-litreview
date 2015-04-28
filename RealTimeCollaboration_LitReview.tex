@@ -92,10 +92,16 @@ P2P connections aren't easy to set up due to complications introduced by NAT (Ne
 When purely looking at P2P networks they are inherently scalable. However real-time collaboration may very likely exist between more than two users. When trying to synchronize more than two browsers using P2P connections it quickly becomes complex. There are different architectures for solving this problem, the most obvious of which being a full mesh architecture. In a group of size ${N}$ where the whole group aims to be synchronized, a full mesh requires every peer to set up a connection with every other peer in the group. This results in $N^2$ connections which quickly becomes infeasible as $N$ grows. An alternative to a full mesh is a star architecture where one client acts as a server in the group and relays data between all clients. This could pose a problem should the main client disconnect but can be solved by implementing a framework that automatically fails over to another client. The last architecture is a multipoint control unit (MCU) which essentially is a client-server architecture where a single server relays data between clients. This architecture would behave similar to a WebSocket architecture \cite{karadogan2014evaluating}.
 
 
-
 \section{Conclusions}
 
-sd
+\subsection{WebRTC vs WebSocket}
+WebRTC has much greater flexibility as it has the ability to function the same way that a WebSocket functions using a client-server architecture in the event that it fails to establish a P2P connection. Another reason for using a client-server architecture could be in a use case where a group aiming to synchronize is too large for a full mesh architecture and benefits more from a single server relaying the data. In cases where full mesh architectures are feasible such as groups with four or less members it is more advantageous to use a P2P network, because it decreases the latency for synchronization and removes resource load off of the main server. In the case of viewing synchronization it is advantageous to use unreliable data transmission with lower latency as this is similar to watching a video stream. 
+
+\subsection{Further Research}
+
+
+
+
 \appendix
 \bibliographystyle{ACM-Reference-Format-Journals}
 \bibliography{rtc}
